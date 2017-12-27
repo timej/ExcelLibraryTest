@@ -35,6 +35,7 @@ namespace ExcelLibraryTest.Models
             File.WriteAllText(outFile, sb.ToString());
         }
 
+        ////tsvに改行文字がある場合に対応
         public static void EpPlusWriter(string inFile, string outFile)
         {
             using (var book = new ExcelPackage())
@@ -48,14 +49,16 @@ namespace ExcelLibraryTest.Models
                     bool ifInner = false;
                     while ((s = sr.ReadLine()) != null)
                     {
-                        line += s;
                         if (ifInner)
                         {
+                            line += "\n" + s;
                             if (s.Contains("\"\t"))
                                 ifInner = false;
                             else
                                 continue;
                         }
+                        else
+                            line = s;
                         
                         int pos;
                         if ((pos = s.LastIndexOf('\t')) > -1 && pos != s.Length - 1)
@@ -73,10 +76,9 @@ namespace ExcelLibraryTest.Models
                             if (double.TryParse(columns[c], out double value))
                                 sheet.Cells[row, c + 1].Value = value;
                             else
-                                sheet.Cells[row, c + 1].Value = columns[c];
+                                sheet.Cells[row, c + 1].Value = columns[c].Trim('"');
                         }
                         row++;
-                        line = "";
                     }
                 }
 

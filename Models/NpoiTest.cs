@@ -11,16 +11,16 @@ namespace ExcelLibraryTest.Models
         public static void NpoiXlsReader(string inFile, string outFile)
         {
             FileStream stream = File.OpenRead(inFile);
-            var book = new NPOI.HSSF.UserModel.HSSFWorkbook(stream);
+            var book = new HSSFWorkbook(stream);
             stream.Close();
-            NPOI.SS.UserModel.ISheet sheet = book.GetSheetAt(0);
+            ISheet sheet = book.GetSheetAt(0);
             int lastRowNum = sheet.LastRowNum;
 
             var sb = new StringBuilder();
 
             for (int r = 0; r < sheet.LastRowNum; r++)
             {
-                NPOI.SS.UserModel.IRow datarow = sheet.GetRow(r);
+                IRow datarow = sheet.GetRow(r);
                 if (datarow != null)
                 {
                     int c = 0;
@@ -54,9 +54,9 @@ namespace ExcelLibraryTest.Models
         public static void NpoiXlsxReader(string inFile, string outFile)
         {
             FileStream stream = File.OpenRead(inFile);
-            var book = new NPOI.XSSF.UserModel.XSSFWorkbook(stream);
+            var book = new XSSFWorkbook(stream);
             stream.Close();
-            NPOI.SS.UserModel.ISheet sheet = book.GetSheetAt(0);
+            ISheet sheet = book.GetSheetAt(0);
             int lastRowNum = sheet.LastRowNum;
 
             var sb = new StringBuilder();
@@ -103,24 +103,28 @@ namespace ExcelLibraryTest.Models
                 book.Write(ws);
         }
 
+        //tsvに改行文字がある場合に対応
         private static void WriteSheet(ISheet sheet, string inFile, string outFile)
         {
             using (var sr = new StreamReader(File.OpenRead(inFile)))
             {
-                int row = 1;
+                int r = 1;
                 string line = "";
                 string s;
                 bool ifInner = false;
                 while ((s = sr.ReadLine()) != null)
                 {
-                    line += s;
+                    
                     if (ifInner)
                     {
+                        line += "\n" + s;
                         if (s.Contains("\"\t"))
                             ifInner = false;
                         else
                             continue;
                     }
+                    else
+                        line = s;
 
                     int pos;
                     if ((pos = s.LastIndexOf('\t')) > -1 && pos != s.Length - 1)
@@ -135,35 +139,20 @@ namespace ExcelLibraryTest.Models
                     string[] columns = line.Split('\t');
                     for (var c = 0; c < columns.Length; c++)
                     {
+                        var row = sheet.GetRow(r) ?? sheet.CreateRow(r);
+                        var cell = row.GetCell(c) ?? row.CreateCell(c);
+
                         if (double.TryParse(columns[c], out double value))
-                            WriteCell(sheet, c, row, value);
+                        {
+                            cell.SetCellValue(value);
+                        }
                         else
-                            WriteCell(sheet, c, row, columns[c]);
+                            cell.SetCellValue(columns[c].Trim('"'));
                     }
 
-                    row++;
-                    line = "";
+                    r++;
                 }
             }
         }
-
-        private static void WriteCell(ISheet sheet, int c, int r, string value)
-        {
-            var row = sheet.GetRow(r) ?? sheet.CreateRow(r);
-            var cell = row.GetCell(c) ?? row.CreateCell(c);
-
-            cell.SetCellValue(value);
-        }
-
-        //セル設定(数値用)
-        private static void WriteCell(ISheet sheet, int c, int r, double value)
-        {
-            var row = sheet.GetRow(r) ?? sheet.CreateRow(r);
-            var cell = row.GetCell(c) ?? row.CreateCell(c);
-
-            cell.SetCellValue(value);
-        }
-
-
     }
 }
