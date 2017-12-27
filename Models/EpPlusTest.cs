@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text;
+using NPOI.OpenXmlFormats.Dml.Diagram;
 using OfficeOpenXml;
 
 namespace ExcelLibraryTest.Models
@@ -19,7 +21,14 @@ namespace ExcelLibraryTest.Models
             {
                 {
                     for (int c = 1; c <= sheet.Dimension.Columns; c++)
-                        sb.Append(sheet.Cells[r, c].Text + "\t");
+                    {
+                        if(sheet.Cells[r, c].Text.Contains('\n'))
+                            sb.Append("\"" + sheet.Cells[r, c].Text + "\"\t");
+                        else
+                            sb.Append(sheet.Cells[r, c].Text + "\t");
+                    }
+
+                    sb.Remove(sb.Length - 1, 1);
                     sb.Append("\n");
                 }
             }
@@ -28,19 +37,52 @@ namespace ExcelLibraryTest.Models
 
         public static void EpPlusWriter(string inFile, string outFile)
         {
-            FileInfo inFileInfo = new FileInfo(inFile);
-            ExcelPackage pck = new ExcelPackage(inFileInfo);
-            ExcelWorksheet sheet = pck.Workbook.Worksheets[1];
-
-            for (int r = 1; r <= sheet.Dimension.Rows; r++)
+            using (var book = new ExcelPackage())
             {
+                var sheet = book.Workbook.Worksheets.Add("Sheet1");
+                using (var sr = new StreamReader(File.OpenRead(inFile)))
                 {
-                    for (int c = 1; c <= sheet.Dimension.Columns; c++)
-                        sheet.Cells[r, c].Value = r + c;
+                    int row = 1;
+                    string line = "";
+                    string s;
+                    bool ifInner = false;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        line += s;
+                        if (ifInner)
+                        {
+                            if (s.Contains("\"\t"))
+                                ifInner = false;
+                            else
+                                continue;
+                        }
+                        
+                        int pos;
+                        if ((pos = s.LastIndexOf('\t')) > -1 && pos != s.Length - 1)
+                        {
+                            if (s[pos + 1] == '"' && s[s.Length - 1] != '"')
+                            {
+                                ifInner = true;
+                                continue;
+                            }
+                        }
+
+                        string[] columns = line.Split('\t');
+                        for (var c = 0; c < columns.Length; c++)
+                        {
+                            if (double.TryParse(columns[c], out double value))
+                                sheet.Cells[row, c + 1].Value = value;
+                            else
+                                sheet.Cells[row, c + 1].Value = columns[c];
+                        }
+                        row++;
+                        line = "";
+                    }
                 }
+
+                book.File = new FileInfo(outFile);
+                book.Save();
             }
-            FileInfo outFileInfo = new FileInfo(outFile);
-            pck.SaveAs(outFileInfo);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using ExcelLibraryTest.Models;
 
 namespace ExcelLibraryTest
@@ -8,6 +9,8 @@ namespace ExcelLibraryTest
         static void Main(string[] args)
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            if (!Directory.Exists("App_Data/DataOut"))
+                Directory.CreateDirectory("App_Data/DataOut");
             if (args.Contains("-d") && args.Contains("-r") && args.Contains("-x"))
             {
                 ExcelDataReaderTest.ExcelDataReader("App_Data/DataIn/am0411.xlsx", "App_Data/DataOut/dx.txt");
@@ -26,11 +29,11 @@ namespace ExcelLibraryTest
             }
             else if (args.Contains("-n") && args.Contains("-w") && args.Contains("-x"))
             {
-                NpoiTest.NpoiXlsxReader("App_Data/DataIn/am0411.xlsx", "App_Data/DataOut/nx.xlsx");
+                NpoiTest.NpoiXlsxWriter("App_Data/DataIn/am0411.txt", "App_Data/DataOut/nx.xlsx");
             }
             else if (args.Contains("-n") && args.Contains("-w"))
             {
-                NpoiTest.NpoiXlsReader("App_Data/DataIn/am0411.xls", "App_Data/DataOut/ns.xls");
+                NpoiTest.NpoiXlsWriter("App_Data/DataIn/am0411.txt", "App_Data/DataOut/ns.xls");
             }
             else if (args.Contains("-e") && args.Contains("-r") && args.Contains("-x"))
             {
@@ -38,7 +41,7 @@ namespace ExcelLibraryTest
             }
             else if (args.Contains("-e") && args.Contains("-w") && args.Contains("-x"))
             {
-                EpPlusTest.EpPlusWriter("App_Data/DataIn/am0411.xlsx", "App_Data/DataOut/ex.xlsx");
+                EpPlusTest.EpPlusWriter("App_Data/DataIn/am0411.txt", "App_Data/DataOut/ex.xlsx");
             }
         }
     }

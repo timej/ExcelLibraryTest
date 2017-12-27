@@ -20,7 +20,7 @@ namespace ExcelLibraryTest.Models
   
                 foreach (DataRow datarow in result.Tables[0].Rows)
                 {
-                    sb.Append(datarow.ItemArray.Aggregate((s, x) => s + "\t" + x.ToString()));
+                    sb.Append(datarow.ItemArray.Aggregate((s, x) => s + "\t" + (x.ToString().Contains("\n")?"\"" + x.ToString() + "\"" : x.ToString())));
                     sb.Append("\n");
                 }
                 File.WriteAllText(outFile, sb.ToString());
