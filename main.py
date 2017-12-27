@@ -11,7 +11,8 @@ def pdwrite(in_path, out_path):
 if __name__ == "__main__":
     import sys
     import os
-    os.mkdir('App_Data/DataOut')
+    if not os.path.exists('App_Data/DataOut'):
+        os.mkdir('App_Data/DataOut')
     if '-r' in sys.argv:
         if '-x' in sys.argv: 
             pdread('App_Data/DataIn/am0411.xlsx', 'App_Data/DataOut/px.txt')
