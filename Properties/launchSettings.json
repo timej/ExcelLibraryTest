@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ExcelDotNetCore": {
+      "commandName": "Project",
+      "commandLineArgs": "-e -w -x"
+    }
+  }
+}
