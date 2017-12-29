@@ -14,8 +14,8 @@ def openpyxl_write(in_path, out_path):
 
     df = pd.read_csv(in_path, sep='\t', header=None)
     
-    wb = Workbook()
-    ws = wb.active
+    wb = Workbook(write_only=True)
+    ws = wb.create_sheet()
 
     for r in dataframe_to_rows(df, index=True, header=True):
         ws.append(r)
