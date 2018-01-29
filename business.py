@@ -6,15 +6,12 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from openpyxl.styles import Font, Alignment
 
-def get_list(rep):
+def get_list():
     # http://openpyxl.readthedocs.io/en/default/pandas.html#
 
     path = 'data/sample.txt'
     df = pd.read_csv(path, sep='\t')
     df['注文日'] = pd.to_datetime(df['注文日'])
-
-    if rep != '':
-        df = df[df['顧客'] // 1000 == rep]
 
     wb = Workbook()
     ws = wb.get_active_sheet()
@@ -24,17 +21,18 @@ def get_list(rep):
     for r in dataframe_to_rows(df, index=False, header=True):
         ws.append(r)
 
-
     begin_row = 3
     end_row = len(df.index) + begin_row
 
     ws['D1'].font = Font(size=20)
     ws['D1'].alignment = Alignment(horizontal='center')
     ws['G2'].alignment = Alignment(horizontal='right')
+
     for cell in ws['A:A']:
         cell.number_format = 'YYYY/MM/DD'
     for cell in ws['G:G']:
         cell.number_format = '#,##0'
+
     ws.column_dimensions['A'].width = 12
     ws.column_dimensions['B'].width = 12 
     ws.column_dimensions['C'].width = 12
@@ -56,9 +54,5 @@ def get_list(rep):
     wb.save('data/一覧.xlsx')
 
 if __name__ == "__main__":
-    import sys
-    rep = ''
-    if len(sys.argv) > 1:
-        rep = sys.argv[1]
-    get_list(rep)
+    get_list()
     

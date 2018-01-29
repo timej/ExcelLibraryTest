@@ -86,5 +86,22 @@ namespace ExcelLibraryTest.Models
                 book.Save();
             }
         }
+
+        public static void EpPlusWriter2(string inFile, string outFile)
+        {
+            using (var book = new ExcelPackage())
+            {
+                var sheet = book.Workbook.Worksheets.Add("Sheet1");
+                var format = new ExcelTextFormat
+                {
+                    TextQualifier = '\t',
+                };
+
+                sheet.Cells["A1"].LoadFromText(inFile, format);
+
+                book.File = new FileInfo(outFile);
+                book.Save();
+            }
+        }
     }
 }
