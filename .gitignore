@@ -366,3 +366,4 @@ venv.bak/
 .mypy_cache/
 
 App_Data/DataOut/
+Pipfile.lock
