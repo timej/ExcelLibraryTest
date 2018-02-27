@@ -8,6 +8,11 @@ def pdwrite(in_path, out_path):
     df = pd.read_csv(in_path, sep='\t', header=None)
     df.to_excel(out_path, header=False, index=False)
 
+'''
+def openpyxl_write(in_path, out_path):
+    df = pd.read_csv(in_path, sep='\t', header=None)
+    df.to_excel(out_path, header=False, index=False, engine='openpyxl')
+'''
 def openpyxl_write(in_path, out_path):
     from openpyxl import Workbook
     from openpyxl.utils.dataframe import dataframe_to_rows

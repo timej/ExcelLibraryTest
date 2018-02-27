@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
-using NPOI.OpenXmlFormats.Dml.Diagram;
 using OfficeOpenXml;
 
-namespace ExcelLibraryTest.Models
+namespace DotNetApp.Models
 {
     public class EpPlusTest
     {

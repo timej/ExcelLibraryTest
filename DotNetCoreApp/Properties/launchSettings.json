@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "ExcelDotNetCore": {
+    "DotNetCoreApp": {
       "commandName": "Project",
-      "commandLineArgs": "-n -w -x"
+      "commandLineArgs": "-e -r -x"
     }
   }
 }

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelLibraryTest", "ExcelLibraryTest.csproj", "{52242CE3-D7F5-4740-965E-C5E7273E4FB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetApp", "DotNetApp\DotNetApp.csproj", "{4DB2859E-1B0A-4EA6-AACF-CF593F5A70E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreApp", "DotNetCoreApp\DotNetCoreApp.csproj", "{42F32A68-5B83-47CD-B217-1979120818EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{52242CE3-D7F5-4740-965E-C5E7273E4FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52242CE3-D7F5-4740-965E-C5E7273E4FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52242CE3-D7F5-4740-965E-C5E7273E4FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52242CE3-D7F5-4740-965E-C5E7273E4FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB2859E-1B0A-4EA6-AACF-CF593F5A70E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB2859E-1B0A-4EA6-AACF-CF593F5A70E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB2859E-1B0A-4EA6-AACF-CF593F5A70E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB2859E-1B0A-4EA6-AACF-CF593F5A70E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42F32A68-5B83-47CD-B217-1979120818EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F32A68-5B83-47CD-B217-1979120818EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F32A68-5B83-47CD-B217-1979120818EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F32A68-5B83-47CD-B217-1979120818EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

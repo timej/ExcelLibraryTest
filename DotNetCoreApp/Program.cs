@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
-using ExcelLibraryTest.Models;
+using DotNetCoreApp.Models;
 
-namespace ExcelLibraryTest
+namespace DotNetCoreApp
 {
     class Program
     {
