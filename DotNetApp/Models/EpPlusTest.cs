@@ -18,18 +18,16 @@ namespace DotNetApp.Models
 
             for (int r = 1; r <= rows; r++)
             {
+                for (int c = 1; c <= sheet.Dimension.Columns; c++)
                 {
-                    for (int c = 1; c <= sheet.Dimension.Columns; c++)
-                    {
-                        if(sheet.Cells[r, c].Text.Contains('\n'))
-                            sb.Append("\"" + sheet.Cells[r, c].Text + "\"\t");
-                        else
-                            sb.Append(sheet.Cells[r, c].Text + "\t");
-                    }
-
-                    sb.Remove(sb.Length - 1, 1);
-                    sb.Append("\n");
+                    if(sheet.Cells[r, c].Text.Contains('\n'))
+                        sb.Append("\"" + sheet.Cells[r, c].Text + "\"\t");
+                    else
+                        sb.Append(sheet.Cells[r, c].Text + "\t");
                 }
+
+                sb.Remove(sb.Length - 1, 1);
+                sb.Append("\n"); 
             }
             File.WriteAllText(outFile, sb.ToString());
         }
