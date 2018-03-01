@@ -364,7 +364,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-App_Data/DataOut/
+DataOut/
 Pipfile.lock
 
 .idea/

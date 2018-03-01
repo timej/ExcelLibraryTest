@@ -11,7 +11,7 @@ namespace DotNetApp.Models
 
         public static void ExcelDataReader(string inFile, string outFile)
         {
-            using (var stream = File.Open(inFile, FileMode.Open, FileAccess.Read))           
+            using (var stream = File.Open(inFile, FileMode.Open, FileAccess.Read))          
             using (var excelReader = ExcelReaderFactory.CreateReader(stream))
             {
                 var result = excelReader.AsDataSet();

@@ -1,8 +1,8 @@
 import pandas as pd
 
 def pdread(in_path, out_path):
-    df = pd.read_excel(in_path, sep='\t', header=None)
-    df.to_csv(out_path, header=False, index=False)
+    df = pd.read_excel(in_path, header=None)
+    df.to_csv(out_path, sep='\t', header=False, index=False)
 
 def pdwrite(in_path, out_path):
     df = pd.read_csv(in_path, sep='\t', header=None)
@@ -16,6 +16,22 @@ def iter_row(row):
 def openpyxl_read(in_path, out_path):
     from openpyxl import load_workbook
     import csv
+
+    wb = load_workbook(in_path, read_only=True)
+    worksheet = wb.active
+
+    with open(out_path, 'w') as f:
+        writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
+
+        for row in worksheet.rows:
+            writer.writerows(iter_row(row))
+
+'''
+# write_only=Trueにした方が速い
+def openpyxl_write(in_path, out_path):
+    df = pd.read_csv(in_path, sep='\t', header=None)
+    df.to_excel(out_path, header=False, index=False, engine='openpyxl')
+'''
 
 def openpyxl_write(in_path, out_path):
     from openpyxl import Workbook
@@ -39,6 +55,8 @@ if __name__ == "__main__":
     if '-r' in sys.argv:
         if '-x' in sys.argv: 
             pdread('App_Data/DataIn/am0411.xlsx', 'App_Data/DataOut/px.txt')
+        elif '-o' in sys.argv:
+            openpyxl_read('App_Data/DataIn/am0411.xlsx', 'App_Data/DataOut/po.txt')
         else:
             pdread('App_Data/DataIn/am0411.xls', 'App_Data/DataOut/ps.txt')
     else:
