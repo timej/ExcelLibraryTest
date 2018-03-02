@@ -18,16 +18,16 @@ def openpyxl_read(in_path, out_path):
     import csv
 
     wb = load_workbook(in_path, read_only=True)
-    worksheet = wb.active
+    sheet = wb.worksheets[0]
 
     with open(out_path, 'w') as f:
         writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
 
-        for row in worksheet.rows:
+        for row in sheet.rows:
             writer.writerows(iter_row(row))
 
 '''
-# write_only=Trueにした方が速い
+# df.to_excelを使うよりwrite_only=Trueにした方が速い
 def openpyxl_write(in_path, out_path):
     df = pd.read_csv(in_path, sep='\t', header=None)
     df.to_excel(out_path, header=False, index=False, engine='openpyxl')
