@@ -43,6 +43,14 @@ namespace DotNetCoreApp
             {
                 EpPlusTest.EpPlusWriter("App_Data/DataIn/am0411.txt", "App_Data/DataOut/ex.xlsx");
             }
+            else if (args.Contains("-c") && args.Contains("-r") && args.Contains("-x"))
+            {
+                ClosedXMLTest.ClosedXMLReader("App_Data/DataIn/am0411.xlsx", "App_Data/DataOut/cx.txt");
+            }
+            else if (args.Contains("-c") && args.Contains("-w") && args.Contains("-x"))
+            {
+                ClosedXMLTest.ClosedXMLWriter("App_Data/DataIn/am0411.txt", "App_Data/DataOut/cx.xlsx");
+            }
         }
     }
 }
